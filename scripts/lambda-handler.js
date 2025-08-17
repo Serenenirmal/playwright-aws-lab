@@ -91,14 +91,17 @@ async function runPlaywrightTest(testFile) {
     // Use directly installed playwright instead of npx
     const playwrightPath = path.join(process.env.LAMBDA_TASK_ROOT, 'node_modules', '.bin', 'playwright');
     
-    const testCommand = spawn('node', [playwrightPath, 'test', testFile, '--reporter=json', '--output-dir=/tmp/test-results'], {
+    const testCommand = spawn('node', [playwrightPath, 'test', testFile, '--reporter=json'], {
       stdio: ['pipe', 'pipe', 'pipe'],
       cwd: process.env.LAMBDA_TASK_ROOT, // Run from Lambda task root
       env: {
         ...process.env,
         PLAYWRIGHT_JSON_OUTPUT_NAME: '/tmp/test-results.json',
         HOME: '/tmp',
-        PLAYWRIGHT_BROWSERS_PATH: path.join(process.env.LAMBDA_TASK_ROOT, 'node_modules', 'playwright-core', '.local-browsers')
+        PLAYWRIGHT_BROWSERS_PATH: path.join(process.env.LAMBDA_TASK_ROOT, 'node_modules', 'playwright-core', '.local-browsers'),
+        // Override default output directories
+        PW_TEST_RESULTS_DIR: '/tmp/test-results',
+        PW_OUTPUT_DIR: '/tmp/playwright-report'
       }
     });
     
