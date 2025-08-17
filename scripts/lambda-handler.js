@@ -73,13 +73,20 @@ async function runPlaywrightTest(testFile) {
   const timestamp = new Date().toISOString();
   const startTime = Date.now();
   
-  // Ensure required directories exist
-  const dirs = ['test-results', 'playwright-report'];
+  // Ensure required directories exist in /tmp (Lambda's writable directory)
+  const tmpDir = '/tmp';
+  const dirs = [
+    path.join(tmpDir, 'test-results'), 
+    path.join(tmpDir, 'playwright-report')
+  ];
   dirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
+  
+  // Set working directory to /tmp for Playwright
+  process.chdir(tmpDir);
   
   return new Promise((resolve, reject) => {
     const testCommand = spawn('npx', ['playwright', 'test', testFile, '--reporter=json'], {
@@ -139,7 +146,11 @@ async function uploadArtifactsToS3(timestamp) {
   }
   
   const uploads = [];
-  const artifactDirs = ['test-results', 'playwright-report'];
+  const tmpDir = '/tmp';
+  const artifactDirs = [
+    path.join(tmpDir, 'test-results'), 
+    path.join(tmpDir, 'playwright-report')
+  ];
   
   try {
     for (const dir of artifactDirs) {
