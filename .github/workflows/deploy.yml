@@ -146,24 +146,4 @@ jobs:
             infra/tfplan
             response.json
 
-  notify-slack:
-    needs: [test-local, build-and-deploy]
-    runs-on: ubuntu-latest
-    if: failure()
-    
-    steps:
-      - name: Notify Slack on failure
-        uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-          channel: '#ci-cd'
-          text: |
-            🚨 Playwright AWS Lab deployment failed!
-            
-            Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-            
-            Check the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
