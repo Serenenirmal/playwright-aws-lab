@@ -98,7 +98,6 @@ async function runPlaywrightTest(testFile) {
         ...process.env,
         PLAYWRIGHT_JSON_OUTPUT_NAME: '/tmp/test-results.json',
         HOME: '/tmp',
-        PLAYWRIGHT_BROWSERS_PATH: path.join(process.env.LAMBDA_TASK_ROOT, 'node_modules', 'playwright-core', '.local-browsers'),
         // Override default output directories
         PW_TEST_RESULTS_DIR: '/tmp/test-results',
         PW_OUTPUT_DIR: '/tmp/playwright-report'
