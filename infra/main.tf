@@ -39,6 +39,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "test_artifacts" {
   rule {
     id     = "delete_old_artifacts"
     status = "Enabled"
+    
+    filter {
+      prefix = ""
+    }
 
     expiration {
       days = var.s3_lifecycle_days
