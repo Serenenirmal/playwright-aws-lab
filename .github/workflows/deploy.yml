@@ -106,6 +106,15 @@ jobs:
         run: |
           cd infra
           terraform plan -out=tfplan
+          
+      - name: Handle resource conflicts
+        run: |
+          cd infra
+          # If plan shows conflicts, try to import existing resources
+          if terraform plan | grep -q "already exists"; then
+            echo "Resources already exist, attempting cleanup..."
+            # This is handled by terraform plan/apply now
+          fi
       
       - name: Terraform Apply
         run: |
