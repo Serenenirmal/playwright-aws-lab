@@ -126,6 +126,9 @@ resource "aws_lambda_function" "playwright_test" {
   timeout         = var.lambda_timeout
   memory_size     = var.lambda_memory
   
+  # Use pre-built Playwright layer with browsers
+  layers = ["arn:aws:lambda:us-east-1:464622532012:layer:Playwright:45"]
+  
   environment {
     variables = {
       S3_BUCKET_NAME = aws_s3_bucket.test_artifacts.bucket
