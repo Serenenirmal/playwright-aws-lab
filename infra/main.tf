@@ -63,7 +63,7 @@ resource "aws_s3_bucket_versioning" "test_artifacts" {
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.project_name}-lambda-role"
+  name = "${var.project_name}-lambda-role-${random_string.bucket_suffix.result}"
   tags = var.tags
 
   assume_role_policy = jsonencode({
@@ -119,7 +119,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
 # Lambda function
 resource "aws_lambda_function" "playwright_test" {
   filename         = "../lambda.zip"
-  function_name    = "${var.project_name}-test-runner"
+  function_name    = "${var.project_name}-test-runner-${random_string.bucket_suffix.result}"
   role            = aws_iam_role.lambda_role.arn
   handler         = "scripts/lambda-handler.handler"
   runtime         = "nodejs18.x"
@@ -144,7 +144,7 @@ resource "aws_lambda_function" "playwright_test" {
 
 # CloudWatch Log Group
 resource "aws_cloudwatch_log_group" "lambda_logs" {
-  name              = "/aws/lambda/${var.project_name}-test-runner"
+  name              = "/aws/lambda/${var.project_name}-test-runner-${random_string.bucket_suffix.result}"
   retention_in_days = 7
   tags              = var.tags
 }
