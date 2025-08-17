@@ -1,0 +1,28 @@
+{
+  "name": "playwright-aws-lab",
+  "version": "1.0.0",
+  "description": "Serverless Playwright Test Lab on AWS",
+  "main": "scripts/lambda-handler.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:lambda": "node scripts/test-lambda-locally.js",
+    "build:lambda": "zip -r lambda.zip . -x '*.git*' 'node_modules/*' 'test-results/*' 'playwright-report/*'",
+    "install:browsers": "npx playwright install",
+    "tf:init": "cd infra && terraform init",
+    "tf:plan": "cd infra && terraform plan",
+    "tf:apply": "cd infra && terraform apply -auto-approve",
+    "tf:destroy": "cd infra && terraform destroy -auto-approve"
+  },
+  "keywords": ["playwright", "aws", "lambda", "testing", "serverless"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.45.0",
+    "@aws-sdk/client-s3": "^3.540.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

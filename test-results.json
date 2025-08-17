@@ -1,0 +1,553 @@
+{
+  "config": {
+    "configFile": "/home/nirmal_patel/Personal/playwright-aws-lab/playwright.config.ts",
+    "rootDir": "/home/nirmal_patel/Personal/playwright-aws-lab/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/nirmal_patel/Personal/playwright-aws-lab/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/nirmal_patel/Personal/playwright-aws-lab/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.2",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "amazon/cart.spec.ts",
+      "file": "amazon/cart.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Amazon India Cart Tests",
+          "file": "amazon/cart.spec.ts",
+          "line": 45,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Navigation and cart icon visibility",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13136,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "✅ Amazon logo is visible\n"
+                        },
+                        {
+                          "text": "✅ Search container is visible\n"
+                        },
+                        {
+                          "text": "✅ Search box is visible\n"
+                        },
+                        {
+                          "text": "Cart icon present: true\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:17.022Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "24bf570acde480a09070-aaf27a07663e27beae4b",
+              "file": "amazon/cart.spec.ts",
+              "line": 46,
+              "column": 7
+            },
+            {
+              "title": "Amazon.in response handling and resilience",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 13102,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Resilience test results: { pageLoad: \u001b[33mtrue\u001b[39m, searchAvailable: \u001b[33mtrue\u001b[39m, navigationPresent: \u001b[33mtrue\u001b[39m }\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:17.023Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "24bf570acde480a09070-d771c2ca8c3f2045d9bf",
+              "file": "amazon/cart.spec.ts",
+              "line": 82,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "amazon/robust.spec.ts",
+      "file": "amazon/robust.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Amazon India - Architecture Demo Tests",
+          "file": "amazon/robust.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Amazon.in page accessibility and navigation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4612,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Page state - Rush hour: false, Main: true, Continue: false\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:30.371Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "385aab7e3c6155bb9f0b-94ddd9c4ef49d2197986",
+              "file": "amazon/robust.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "Page response time measurement",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2219,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Amazon.in load time: 1548ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:30.424Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "385aab7e3c6155bb9f0b-331b4f7800556d6ea2bf",
+              "file": "amazon/robust.spec.ts",
+              "line": 48,
+              "column": 7
+            },
+            {
+              "title": "Basic HTML structure validation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6218,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "HTML structure validation passed: {\n  hasTitle: \u001b[33mtrue\u001b[39m,\n  hasBody: \u001b[33mtrue\u001b[39m,\n  hasHead: \u001b[33mtrue\u001b[39m,\n  metaTags: \u001b[33m14\u001b[39m,\n  linkTags: \u001b[33m10\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:32.680Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "385aab7e3c6155bb9f0b-50e3ccd74378532e7850",
+              "file": "amazon/robust.spec.ts",
+              "line": 66,
+              "column": 7
+            },
+            {
+              "title": "Network connectivity and SSL verification",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 8289,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Network errors detected: 2\n"
+                        },
+                        {
+                          "text": "Network errors: [\n  \u001b[32m'503: https://www.amazon.in/ah/ajax/counter?ctr=desktop_ajax_atf&exp=1755411936238&rId=FK1R4RJ6YX9M12XWBGYM&mkId=A21TJRUUN4KGV&h=8ffd9f6af4fa60035a5c7a4cfb4656354e511ad1c4b3ad6b69db16b0e6f6aec6'\u001b[39m,\n  \u001b[32m'404: https://x.bidswitch.net/sync_a9/val=gUVi056KRtS1xFYxLLYtfA&redirect=https://aax-eu.amazon-adsystem.com/s/ecm3?ex=bidswitch.com&id=${UUID}&gdpr_consent='\u001b[39m\n]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:34.996Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "385aab7e3c6155bb9f0b-9534f9be786ebb38143c",
+              "file": "amazon/robust.spec.ts",
+              "line": 91,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "amazon/search.spec.ts",
+      "file": "amazon/search.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Amazon India Search Tests",
+          "file": "amazon/search.spec.ts",
+          "line": 45,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Amazon homepage and search functionality",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 16717,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Search response - Results: false, Rush hour: true, Error: false\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:38.921Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff117c1bc3e76d468228-0102a384777945e4be63",
+              "file": "amazon/search.spec.ts",
+              "line": 46,
+              "column": 7
+            },
+            {
+              "title": "Page elements and navigation validation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 11808,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Navigation elements visible: 3/3\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:43.329Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff117c1bc3e76d468228-46c6d3483e9c5915ee52",
+              "file": "amazon/search.spec.ts",
+              "line": 81,
+              "column": 7
+            },
+            {
+              "title": "Lambda performance and error handling demo",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 14690,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Lambda simulation execution time: 13997ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-17T06:23:55.147Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff117c1bc3e76d468228-b732deebca4c4c3e89f4",
+              "file": "amazon/search.spec.ts",
+              "line": 107,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "example.spec.ts",
+      "file": "example.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "has title",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1898,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-08-17T06:23:55.648Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-b06063a3e613764d08f8",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "get started link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2533,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-08-17T06:23:57.565Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-274e97907a6e3638a22f",
+          "file": "example.spec.ts",
+          "line": 10,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-17T06:23:15.524Z",
+    "duration": 54378.221999999994,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,42 @@
+
+# Dependencies
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# AWS & Terraform
+.env
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+
+# Build artifacts
+build/
+dist/
+*.zip
+lambda.zip
+
+# IDE & OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+response.json
+
+# Screenshots & Videos
+screenshots/
+videos/
+
+# Temporary files
+tmp/
+temp/

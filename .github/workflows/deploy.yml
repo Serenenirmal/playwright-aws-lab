@@ -1,0 +1,169 @@
+name: Deploy Playwright Lambda Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  TF_VERSION: 1.5.0
+
+jobs:
+  test-local:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
+      - name: Run local tests
+        run: npm test
+        continue-on-error: true
+      
+      - name: Upload local test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: local-test-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+
+  build-and-deploy:
+    needs: test-local
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps
+      
+      - name: Build Lambda package
+        run: |
+          # Create a clean build directory
+          mkdir -p build
+          
+          # Copy necessary files
+          cp -r scripts/ build/
+          cp -r tests/ build/
+          cp package*.json build/
+          cp playwright.config.ts build/
+          
+          # Install production dependencies in build directory
+          cd build
+          npm ci --only=production
+          npx playwright install chromium
+          
+          # Create deployment zip
+          zip -r ../lambda.zip . -x '*.git*' 'node_modules/.cache/*'
+          cd ..
+          
+          # Verify zip size (Lambda limit is 50MB)
+          ls -lh lambda.zip
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init
+      
+      - name: Terraform Plan
+        run: |
+          cd infra
+          terraform plan -out=tfplan
+      
+      - name: Terraform Apply
+        run: |
+          cd infra
+          terraform apply tfplan
+      
+      - name: Get Lambda function name
+        id: lambda-info
+        run: |
+          cd infra
+          LAMBDA_NAME=$(terraform output -raw lambda_function_name)
+          S3_BUCKET=$(terraform output -raw s3_bucket_name)
+          echo "lambda_name=$LAMBDA_NAME" >> $GITHUB_OUTPUT
+          echo "s3_bucket=$S3_BUCKET" >> $GITHUB_OUTPUT
+      
+      - name: Test Lambda deployment
+        run: |
+          aws lambda invoke \
+            --function-name ${{ steps.lambda-info.outputs.lambda_name }} \
+            --payload '{"testFile": "tests/amazon/search.spec.ts"}' \
+            --cli-binary-format raw-in-base64-out \
+            response.json
+          
+          cat response.json
+          
+          # Check if test was successful
+          if ! grep -q '"success":true' response.json; then
+            echo "Lambda test failed!"
+            exit 1
+          fi
+      
+      - name: Upload deployment artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-artifacts
+          path: |
+            lambda.zip
+            infra/tfplan
+            response.json
+
+  notify-slack:
+    needs: [test-local, build-and-deploy]
+    runs-on: ubuntu-latest
+    if: failure()
+    
+    steps:
+      - name: Notify Slack on failure
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#ci-cd'
+          text: |
+            🚨 Playwright AWS Lab deployment failed!
+            
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+            
+            Check the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
