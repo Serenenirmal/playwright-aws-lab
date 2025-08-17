@@ -76,11 +76,15 @@ jobs:
           # Install production dependencies in build directory
           cd build
           npm ci --only=production
-          npx playwright install chromium --with-deps
           
-          # Debug: Check where browsers are installed
-          find . -name "*chrome*" -type f | head -5
-          ls -la node_modules/playwright-core/ | grep local
+          # Install browsers with proper environment
+          PLAYWRIGHT_BROWSERS_PATH=./browsers npx playwright install chromium --with-deps
+          
+          # Debug: Check where browsers are actually installed
+          echo "=== Browser installation check ==="
+          find . -name "*chromium*" -type d
+          find ./browsers -name "*chrome*" -type f 2>/dev/null | head -3 || echo "No browsers in ./browsers"
+          find ./node_modules -name "*chrome*" -type f 2>/dev/null | head -3 || echo "No browsers in node_modules"
           
           # Create deployment zip
           zip -r ../lambda.zip . -x '*.git*' 'node_modules/.cache/*'
