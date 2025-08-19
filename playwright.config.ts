@@ -4,8 +4,8 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 1 : 1,
+  workers: process.env.CI ? 4 : undefined,
   timeout: 60000, // Increase test timeout to 60 seconds
   outputDir: process.env.PW_TEST_RESULTS_DIR || 'test-results',
   reporter: [
