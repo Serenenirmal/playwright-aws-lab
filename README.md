@@ -25,29 +25,34 @@ A scalable, cloud-native end-to-end testing solution built on AWS serverless arc
 
 ```
 ├── tests/
-│   ├── pages/               # Page Object Model implementation
-│   │   ├── AmazonHomePage.ts
-│   │   ├── SearchResultsPage.ts
-│   │   └── ProductPage.ts
-│   └── e2e/                 # End-to-end test scenarios
-│       └── amazon-search-workflow.spec.ts
+│   ├── pages/                          # Page Object Model implementation
+│   │   ├── AmazonHomePage.ts           # Home page interactions
+│   │   ├── SearchResultsPage.ts        # Search results handling
+│   │   └── ProductPage.ts              # Product page operations
+│   └── e2e/                            # Comprehensive test suites
+│       ├── ecommerce-platform-tests.spec.ts    # Core functionality tests
+│       ├── user-journey-workflows.spec.ts      # Complex user scenarios
+│       ├── data-driven-tests.spec.ts           # JSON-driven test cases
+│       ├── visual-regression-tests.spec.ts     # Visual & accessibility tests
+│       └── api-integration-tests.spec.ts       # API validation tests
 ├── scripts/
-│   └── github-trigger.js    # Lambda function for workflow orchestration
-├── infra/                   # Terraform infrastructure definitions
+│   └── github-trigger.js               # Lambda function for workflow orchestration
+├── infra/                              # Terraform infrastructure definitions
 │   ├── main.tf
 │   ├── variables.tf
 │   └── outputs.tf
-└── .github/workflows/       # CI/CD pipeline configuration
-    ├── deploy.yml
-    └── test-only.yml
+└── .github/workflows/                  # CI/CD pipeline configuration
+    ├── deploy.yml                      # Infrastructure deployment
+    └── test-only.yml                   # Test execution workflow
 ```
 
 ## 🔧 Technical Implementation
 
 ### Page Object Model
 - **Separation of Concerns**: Test logic separated from UI locators
-- **Maintainability**: Centralized element definitions
-- **Reusability**: Shared page objects across test scenarios
+- **Maintainability**: Centralized element definitions with robust selectors
+- **Reusability**: Shared page objects across multiple test scenarios
+- **Reliability**: Optimized locators for dynamic content and loading states
 
 ### Serverless Testing Pipeline
 1. **Event Trigger**: EventBridge schedules Lambda execution
@@ -63,10 +68,11 @@ A scalable, cloud-native end-to-end testing solution built on AWS serverless arc
 
 ## 📊 Performance & Scalability
 
-- **Execution Time**: 2-5 minutes per test suite
-- **Concurrency**: 100+ parallel test executions
-- **Storage**: Automatic artifact cleanup after 7 days
-- **Cost**: Optimized for AWS free tier usage
+- **Test Coverage**: 5 comprehensive test suites covering core workflows
+- **Execution Time**: 3-8 minutes for full test suite (optimizable to 2-3 minutes)
+- **Concurrency**: Configurable workers for parallel execution
+- **Storage**: Automatic artifact cleanup with S3 lifecycle management
+- **Cost**: Optimized for AWS free tier usage (~$0-5/month)
 
 ## 🛠️ Technology Stack
 
@@ -79,11 +85,16 @@ A scalable, cloud-native end-to-end testing solution built on AWS serverless arc
 
 ## 🎯 Key Achievements
 
-- Reduced testing infrastructure costs by 95% using serverless architecture
-- Implemented fully automated CI/CD pipeline with zero-downtime deployments
-- Achieved 100% test automation coverage for critical user workflows
-- Built scalable solution supporting 100+ concurrent test executions
-- Established Infrastructure as Code practices with version control
+- **Cost Optimization**: Reduced testing infrastructure costs by 95% using serverless architecture
+- **Automation**: Fully automated CI/CD pipeline with zero-downtime deployments
+- **Test Coverage**: Comprehensive test automation across 5 different testing patterns:
+  - Core functionality validation
+  - Complex user journey workflows
+  - Data-driven testing with JSON inputs
+  - Visual regression and accessibility testing
+  - API integration validation
+- **Scalability**: Built serverless solution supporting configurable concurrent executions
+- **Infrastructure as Code**: Version-controlled Terraform infrastructure with automated provisioning
 
 ## 🔍 Monitoring & Observability
 
