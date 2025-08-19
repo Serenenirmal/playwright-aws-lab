@@ -1,0 +1,85 @@
+{
+  "searchScenarios": [
+    {
+      "category": "Electronics",
+      "searchTerm": "wireless mouse",
+      "expectedMinResults": 10,
+      "priceRange": { "min": 500, "max": 3000 }
+    },
+    {
+      "category": "Books",
+      "searchTerm": "javascript programming",
+      "expectedMinResults": 5,
+      "priceRange": { "min": 200, "max": 1500 }
+    },
+    {
+      "category": "Home & Kitchen",
+      "searchTerm": "air fryer",
+      "expectedMinResults": 8,
+      "priceRange": { "min": 2000, "max": 15000 }
+    },
+    {
+      "category": "Fashion",
+      "searchTerm": "running shoes",
+      "expectedMinResults": 15,
+      "priceRange": { "min": 1000, "max": 8000 }
+    },
+    {
+      "category": "Sports",
+      "searchTerm": "yoga mat",
+      "expectedMinResults": 12,
+      "priceRange": { "min": 300, "max": 2000 }
+    }
+  ],
+  "userPersonas": [
+    {
+      "name": "TechEnthusiast",
+      "preferredCategories": ["Electronics", "Computers"],
+      "budget": { "min": 5000, "max": 50000 },
+      "searchPatterns": ["gaming laptop", "mechanical keyboard", "4k monitor"]
+    },
+    {
+      "name": "HomeChef",
+      "preferredCategories": ["Home & Kitchen", "Grocery"],
+      "budget": { "min": 500, "max": 10000 },
+      "searchPatterns": ["non-stick pan", "pressure cooker", "spice rack"]
+    },
+    {
+      "name": "FitnessEnthusiast",
+      "preferredCategories": ["Sports", "Health"],
+      "budget": { "min": 1000, "max": 15000 },
+      "searchPatterns": ["protein powder", "dumbbell set", "fitness tracker"]
+    }
+  ],
+  "testEnvironments": [
+    {
+      "name": "desktop",
+      "viewport": { "width": 1920, "height": 1080 },
+      "userAgent": "desktop"
+    },
+    {
+      "name": "tablet",
+      "viewport": { "width": 768, "height": 1024 },
+      "userAgent": "tablet"
+    },
+    {
+      "name": "mobile",
+      "viewport": { "width": 375, "height": 667 },
+      "userAgent": "mobile"
+    }
+  ],
+  "apiEndpoints": [
+    {
+      "name": "searchAPI",
+      "path": "/api/s",
+      "method": "GET",
+      "expectedStatusCode": 200
+    },
+    {
+      "name": "productAPI", 
+      "path": "/api/dp",
+      "method": "GET",
+      "expectedStatusCode": 200
+    }
+  ]
+}

@@ -28,14 +28,17 @@ export class AmazonHomePage {
   }
 
   async navigate() {
-    await this.page.goto('/');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto('/', { timeout: 60000, waitUntil: 'domcontentloaded' });
+    // Wait for key elements instead of networkidle (more reliable)
+    await this.searchBox.waitFor({ timeout: 30000 });
+    await this.headerLogo.waitFor({ timeout: 10000 });
   }
 
   async search(searchTerm: string) {
     await this.searchBox.fill(searchTerm);
     await this.searchButton.click();
-    await this.page.waitForLoadState('networkidle');
+    // Wait for search results page instead of networkidle
+    await this.page.waitForURL('**/s?**', { timeout: 30000 });
   }
 
   async selectCategory(category: string) {

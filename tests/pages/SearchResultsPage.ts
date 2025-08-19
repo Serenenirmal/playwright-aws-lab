@@ -38,12 +38,14 @@ export class SearchResultsPage {
 
   async clickFirstProduct() {
     await this.firstProductTitle.click();
-    await this.page.waitForLoadState('networkidle');
+    // Wait for product page to load
+    await this.page.waitForURL('**/dp/**', { timeout: 30000 });
   }
 
   async sortBy(option: string) {
     await this.sortDropdown.selectOption(option);
-    await this.page.waitForLoadState('networkidle');
+    // Wait for results to refresh
+    await this.page.waitForTimeout(3000);
   }
 
   async applyPriceFilter(minPrice: string, maxPrice: string) {
