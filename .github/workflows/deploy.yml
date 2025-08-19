@@ -115,15 +115,6 @@ jobs:
           TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
           TF_VAR_github_owner: ${{ github.repository_owner }}
           TF_VAR_github_repo: ${{ github.event.repository.name }}
-          
-      - name: Handle resource conflicts
-        run: |
-          cd infra
-          # If plan shows conflicts, try to import existing resources
-          if terraform plan | grep -q "already exists"; then
-            echo "Resources already exist, attempting cleanup..."
-            # This is handled by terraform plan/apply now
-          fi
       
       - name: Terraform Apply
         run: |
