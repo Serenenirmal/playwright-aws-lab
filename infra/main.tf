@@ -116,23 +116,22 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   role       = aws_iam_role.lambda_role.name
 }
 
-# Lambda function
+# Lambda function - triggers GitHub Actions (FREE TIER FRIENDLY)
 resource "aws_lambda_function" "playwright_test" {
   filename         = "../lambda.zip"
   function_name    = "${var.project_name}-test-runner-${random_string.bucket_suffix.result}"
   role            = aws_iam_role.lambda_role.arn
-  handler         = "scripts/lambda-handler.handler"
+  handler         = "scripts/github-trigger.handler"
   runtime         = "nodejs18.x"
-  timeout         = var.lambda_timeout
-  memory_size     = var.lambda_memory
-  
-  # Use pre-built Playwright layer with browsers
-  layers = ["arn:aws:lambda:us-east-1:464622532012:layer:Playwright:45"]
+  timeout         = 30  # Only triggers GitHub Actions
+  memory_size     = 128 # Minimal memory (FREE TIER)
   
   environment {
     variables = {
       S3_BUCKET_NAME = aws_s3_bucket.test_artifacts.bucket
-      NODE_ENV       = "production"
+      GITHUB_TOKEN   = var.github_token
+      GITHUB_OWNER   = var.github_owner  
+      GITHUB_REPO    = var.github_repo
     }
   }
 

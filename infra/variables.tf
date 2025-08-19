@@ -10,16 +10,24 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "lambda_timeout" {
-  description = "Lambda function timeout in seconds"
-  type        = number
-  default     = 900  # 15 minutes
+# GitHub integration variables for triggering workflows
+variable "github_token" {
+  description = "GitHub personal access token"
+  type        = string
+  sensitive   = true
+  default     = "dummy-token"  # Set via environment or tfvars
 }
 
-variable "lambda_memory" {
-  description = "Lambda function memory in MB"
-  type        = number
-  default     = 2048
+variable "github_owner" {
+  description = "GitHub repository owner"
+  type        = string
+  default     = "YOUR_USERNAME"  # Replace with your GitHub username
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+  default     = "playwright-aws-lab"
 }
 
 variable "s3_lifecycle_days" {

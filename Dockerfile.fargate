@@ -1,0 +1,32 @@
+# Multi-stage Docker build for ECS Fargate
+FROM mcr.microsoft.com/playwright:v1.54.2-jammy as playwright
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+RUN npm ci
+
+# Copy application code
+COPY . .
+
+# Install browsers (already included in playwright image)
+RUN npx playwright install chromium
+
+# Runtime stage
+FROM mcr.microsoft.com/playwright:v1.54.2-jammy
+WORKDIR /app
+
+# Copy from build stage
+COPY --from=playwright /app .
+
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+if [ "$SCHEDULED" = "true" ]; then\n\
+  npm test\n\
+else\n\
+  node server.js\n\
+fi' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+
+EXPOSE 3000
+CMD ["/app/entrypoint.sh"]

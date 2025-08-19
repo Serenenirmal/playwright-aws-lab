@@ -1,0 +1,66 @@
+name: Run Playwright Tests Only
+
+on:
+  workflow_dispatch:
+    inputs:
+      trigger_source:
+        description: 'Source that triggered this workflow'
+        required: false
+        default: 'manual'
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
+      - name: Run Playwright tests
+        run: npm test
+        continue-on-error: true
+      
+      - name: Upload test results to S3
+        if: always()
+        run: |
+          # Upload to S3 if AWS credentials are available
+          if [ -n "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws configure set region ${{ env.AWS_REGION }}
+            
+            timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
+            
+            # Upload test results
+            aws s3 sync test-results/ s3://playwright-aws-lab-test-artifacts-${GITHUB_RUN_ID}/test-results/ --delete
+            aws s3 sync playwright-report/ s3://playwright-aws-lab-test-artifacts-${GITHUB_RUN_ID}/playwright-report/ --delete
+            
+            echo "✅ Test results uploaded to S3"
+          else
+            echo "⚠️ AWS credentials not found, skipping S3 upload"
+          fi
+      
+      - name: Upload GitHub artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
