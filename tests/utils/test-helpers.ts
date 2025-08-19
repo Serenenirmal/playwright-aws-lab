@@ -42,9 +42,9 @@ export class TestHelpers {
     const performanceMetrics = await page.evaluate(() => {
       const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
       const paintEntries = performance.getEntriesByType('paint');
-      
+      // Use .startTime for navigation timing (navigationStart is not available)
       return {
-        domContentLoaded: navigation.domContentLoadedEventEnd - navigation.navigationStart,
+        domContentLoaded: navigation.domContentLoadedEventEnd - navigation.startTime,
         firstContentfulPaint: paintEntries.find(entry => entry.name === 'first-contentful-paint')?.startTime || 0,
         largestContentfulPaint: paintEntries.find(entry => entry.name === 'largest-contentful-paint')?.startTime || 0
       };
@@ -121,7 +121,7 @@ export class TestHelpers {
     rating: string;
     image: string;
   }>> {
-    const products = [];
+  const products: Array<{ title: string; price: string; rating: string; image: string }> = [];
     
     const productElements = await page.locator('[data-component-type="s-search-result"]').all();
     const limit = Math.min(productElements.length, maxProducts);
