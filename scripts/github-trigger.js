@@ -1,9 +1,8 @@
-// GitHub Actions Trigger Lambda (FREE TIER FRIENDLY)
 const https = require('https');
 
 /**
- * Triggers GitHub Actions workflow via REST API
- * This Lambda is tiny, fast, and stays within free tier limits
+ * Serverless workflow orchestrator for E2E testing pipeline
+ * Triggers GitHub Actions workflows via REST API integration
  */
 exports.handler = async (event, context) => {
   console.log('Lambda triggered:', JSON.stringify(event));
@@ -83,8 +82,8 @@ exports.handler = async (event, context) => {
 };
 
 /**
- * Trigger GitHub Actions workflow using native HTTPS
- * No external dependencies = smaller package = free tier friendly
+ * Trigger GitHub Actions workflow using native Node.js HTTPS
+ * Lightweight implementation with zero external dependencies
  */
 function triggerGitHubWorkflow({ owner, repo, token, workflowId, inputs = {} }) {
   return new Promise((resolve, reject) => {
