@@ -15,19 +15,16 @@ variable "github_token" {
   description = "GitHub personal access token"
   type        = string
   sensitive   = true
-  default     = "dummy-token"  # Set via environment or tfvars
 }
 
 variable "github_owner" {
   description = "GitHub repository owner"
   type        = string
-  default     = "YOUR_USERNAME"  # Replace with your GitHub username
 }
 
 variable "github_repo" {
   description = "GitHub repository name"
   type        = string
-  default     = "playwright-aws-lab"
 }
 
 variable "s3_lifecycle_days" {

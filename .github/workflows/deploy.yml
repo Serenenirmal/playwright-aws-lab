@@ -67,24 +67,27 @@ jobs:
           # Create a clean build directory
           mkdir -p build
           
-          # Copy necessary files
-          cp -r scripts/ build/
-          cp -r tests/ build/
-          cp package*.json build/
-          cp playwright.config.ts build/
+          # Copy only the GitHub trigger script (lightweight)
+          cp scripts/github-trigger.js build/
+          mkdir -p build/scripts
+          cp scripts/github-trigger.js build/scripts/
           
-          # Install production dependencies in build directory
+          # Create minimal package.json for Lambda
+          echo '{
+            "name": "playwright-github-trigger",
+            "version": "1.0.0",
+            "main": "scripts/github-trigger.js",
+            "dependencies": {}
+          }' > build/package.json
+          
           cd build
-          npm ci --only=production
           
-          # Don't install browsers in package - use Lambda layer instead
-          echo "=== Package size without browsers ==="
-          
-          # Create deployment zip
-          zip -r ../lambda.zip . -x '*.git*' 'node_modules/.cache/*'
+          # Create deployment zip (very small, no dependencies needed)
+          zip -r ../lambda.zip . 
           cd ..
           
-          # Verify zip size (Lambda limit is 50MB)
+          # Verify zip size
+          echo "=== Lambda package size ==="
           ls -lh lambda.zip
       
       - name: Setup Terraform
@@ -108,6 +111,10 @@ jobs:
         run: |
           cd infra
           terraform plan -out=tfplan
+        env:
+          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_github_owner: ${{ github.repository_owner }}
+          TF_VAR_github_repo: ${{ github.event.repository.name }}
           
       - name: Handle resource conflicts
         run: |
@@ -122,6 +129,10 @@ jobs:
         run: |
           cd infra
           terraform apply tfplan
+        env:
+          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_github_owner: ${{ github.repository_owner }}
+          TF_VAR_github_repo: ${{ github.event.repository.name }}
       
       - name: Get Lambda function name
         id: lambda-info
