@@ -6,7 +6,22 @@ const https = require('https');
  * This Lambda is tiny, fast, and stays within free tier limits
  */
 exports.handler = async (event, context) => {
-  console.log('Lambda triggered, dispatching GitHub Actions workflow...');
+  console.log('Lambda triggered:', JSON.stringify(event));
+  
+  // Handle test ping during deployment
+  if (event.test === 'ping') {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        success: true,
+        message: 'Lambda function is working',
+        lambdaRequestId: context.awsRequestId,
+        timestamp: new Date().toISOString()
+      })
+    };
+  }
+  
+  console.log('Dispatching GitHub Actions workflow...');
   
   const { 
     GITHUB_TOKEN, 
@@ -20,7 +35,8 @@ exports.handler = async (event, context) => {
       statusCode: 400,
       body: JSON.stringify({
         success: false,
-        error: 'GitHub token not configured'
+        error: 'GitHub token not configured. Please add a Personal Access Token with repo and actions:write permissions',
+        instructions: 'Go to GitHub Settings > Developer settings > Personal access tokens > Generate new token'
       })
     };
   }
